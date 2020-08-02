@@ -91,6 +91,7 @@ class GameViewModel : ViewModel() {
         _score.value = (score.value)?.minus(1)
         nextWord()
     }
+
     fun onCorrect() {
         _score.value = (score.value)?.plus(1)
         nextWord()
@@ -101,8 +102,18 @@ class GameViewModel : ViewModel() {
      */
     private fun nextWord() {
         //Select and remove a word from the list
-        if (!wordList.isEmpty()) {
+        if (wordList.isEmpty()) {
+            onGameFinish()
+        } else {
             _word.value = wordList.removeAt(0)
         }
+    }
+
+    private val _eventGameFinish = MutableLiveData<Boolean>()
+    val eventGameFinish: LiveData<Boolean>
+        get() = _eventGameFinish
+
+    fun onGameFinish() {
+        _eventGameFinish.value = true
     }
 }
